@@ -1,4 +1,4 @@
-package net.hypixel.api.Wooper.Items;
+package Wooper.Items;
 
 import com.google.gson.JsonObject;
 

@@ -1,4 +1,4 @@
-package net.hypixel.api.Wooper.Enchants;
+package Wooper.Enchants;
 
 public enum Enchants {
     BANEOA,
