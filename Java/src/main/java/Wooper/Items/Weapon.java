@@ -14,7 +14,7 @@ public class Weapon extends Item {
         super(item);
         hpBooks = this.getHpBooks(item.get("item_lore").getAsString());
     }
-    public int getHpBooks(String itemLore){
+    private int getHpBooks(String itemLore){
         String regex = "\\(\\+\\d{1,2}\\)";
         Pattern pattern = Pattern.compile(regex);
         Matcher m = pattern.matcher(itemLore);
@@ -22,6 +22,7 @@ public class Weapon extends Item {
         int index = 0;
         while(m.find()){
             values.add(Integer.parseInt(m.group().replaceAll("\\D", "")));
+            System.out.println(m.group());
             index++;
         }
         if (index == 0){
@@ -29,4 +30,9 @@ public class Weapon extends Item {
         }
         return Collections.max(values)/2;
     }
+
+    public int getHpBooks(){
+        return hpBooks;
+    }
+
 }

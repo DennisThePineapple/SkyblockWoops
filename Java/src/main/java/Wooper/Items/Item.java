@@ -2,6 +2,8 @@ package Wooper.Items;
 
 import com.google.gson.*;
 
+import static Wooper.Items.Tiers.*;
+
 public class Item {
     String auctionID;
     String seller;
@@ -10,14 +12,15 @@ public class Item {
     String tier;
     int currentBid;
     long secondsRemaining;
-    public Item(JsonObject item){
+
+    public Item(JsonObject item) {
         auctionID = item.get("uuid").getAsString();
         seller = item.get("auctioneer").getAsString();
         endTime = item.get("end").getAsLong();
         itemName = item.get("item_name").getAsString();
         tier = item.get("tier").getAsString();
         currentBid = item.get("highest_bid_amount").getAsInt();
-        if (currentBid == 0){
+        if (currentBid == 0) {
             currentBid = item.get("starting_bid").getAsInt();
         }
         secondsRemaining = this.secondsRemaining();
@@ -39,21 +42,36 @@ public class Item {
         return itemName;
     }
 
-    public String getTier() {
-        return tier;
+    public Tiers getTier() {
+        switch (tier) {
+            case "COMMON":
+                return COMMON;
+            case "UNCOMMON":
+                return UNCOMMON;
+            case "RARE":
+                return RARE;
+            case "EPIC":
+                return EPIC;
+            case "LEGENDARY":
+                return LEGENDARY;
+            default:
+                return SPECIAL;
+        }
     }
+
 
     /**
      * Gets the time remaining in the auction
+     *
      * @return
      */
-    public long secondsRemaining(){
+    public long secondsRemaining() {
         return endTime - System.currentTimeMillis();
     }
 
-    public void updateItem(JsonObject item){
+    public void updateItem(JsonObject item) {
         this.currentBid = item.get("highest_bid_amount").getAsInt();
-        if (this.currentBid == 0){
+        if (this.currentBid == 0) {
             this.currentBid = item.get("starting_bid").getAsInt();
         }
         this.secondsRemaining = item.get("end").getAsLong() - System.currentTimeMillis();
