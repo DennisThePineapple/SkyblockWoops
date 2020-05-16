@@ -254,6 +254,7 @@ public class HypixelAPI {
 
             }
             System.out.println(url);
+            //System.out.println("Printing");
 
             executorService.submit(() -> {
                 try {

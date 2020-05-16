@@ -14,10 +14,11 @@ public class GetSkyBlockAuctionsExample {
                 return;
             }
 
-            System.out.println(page0);
+            System.out.println(page0.getPage());
             if (page0.hasNextPage()) {
                 ExampleUtil.API.getSkyBlockAuctions(page0.getPage() + 1).whenComplete(ExampleUtil.getTestConsumer());
             } else {
+                System.out.println("No pages left");
                 System.exit(0);
             }
         }

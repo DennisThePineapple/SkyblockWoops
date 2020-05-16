@@ -1,19 +1,26 @@
 package Wooper.Items;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class ItemsManager {
 
-    List<Item> items;
-    List<Armour> armours;
-    List<EnchantedBooks> enchantedBooks;
-    List<Pet> pets;
-    List<Weapon> weapons;
-
+    private List<Item> items;
+    private List<Armour> armours;
+    private List<EnchantedBooks> enchantedBooks;
+    private List<Pet> pets;
+    private List<Weapon> weapons;
+    private static ItemsManager itemsManager = null;
+    private Pattern pattern;
+    private Matcher m;
     private ItemsManager(){
         items = new ArrayList<>();
         armours = new ArrayList<>();
@@ -22,12 +29,26 @@ public class ItemsManager {
         weapons = new ArrayList<>();
     }
 
-    public ItemsManager get(){
-        return this;
+    public static ItemsManager get(){
+        if (itemsManager == null){
+            itemsManager = new ItemsManager();
+        }
+        return itemsManager;
     }
 
-    public void addItem(JsonObject jsonObject){
-            
+    public void addItems(JsonArray jsonArray){
+        StreamSupport
+                .stream(jsonArray.spliterator(), false)
+                .forEach(jsonElement ->{
+                    JsonObject item = jsonElement.getAsJsonObject();
+                    String regex = "\\[\\d{1,3}]";
+                    pattern = Pattern.compile(regex);
+                    if (pattern.matcher(item.get("item_name").getAsString()).find()){
+                        pets.add(new Pet(item));
+                        return;
+                    }
+                    items.add(new Item(item));
+                });
     }
 
     public List<Item> getItems() {
