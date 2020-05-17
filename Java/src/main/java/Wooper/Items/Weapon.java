@@ -22,7 +22,6 @@ public class Weapon extends Item {
         int index = 0;
         while(m.find()){
             values.add(Integer.parseInt(m.group().replaceAll("\\D", "")));
-            System.out.println(m.group());
             index++;
         }
         if (index == 0){

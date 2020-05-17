@@ -270,8 +270,10 @@ public class HypixelAPI {
                     checkReply(response);
 
                     future.complete(response);
+
                 } catch (Throwable t) {
                     future.completeExceptionally(t);
+                    System.out.println(url);
                 }
             });
         } catch (Throwable throwable) {
