@@ -14,7 +14,7 @@ public class Item {
     private String itemName;
     private String tier;
     private int currentBid;
-    int secondsRemaining;
+
 
     public Item(JsonObject item) {
         auctionID = StringtoUUID.convert(item.get("uuid").getAsString());
@@ -26,7 +26,6 @@ public class Item {
         if (currentBid == 0) {
             currentBid = item.get("starting_bid").getAsInt();
         }
-        secondsRemaining = this.secondsRemaining();
     }
 
     public UUID getAuctionID() {
@@ -37,9 +36,6 @@ public class Item {
         return seller;
     }
 
-    public long getEndTime() {
-        return endTime;
-    }
 
     public String getItemName() {
         return itemName;
@@ -62,6 +58,9 @@ public class Item {
         }
     }
 
+    public int getCurrentBid() {
+        return currentBid;
+    }
 
     /**
      * Gets the time remaining in the auction
@@ -72,11 +71,4 @@ public class Item {
         return Math.round((endTime - System.currentTimeMillis())/1000f);
     }
 
-    public void updateItem(JsonObject item) {
-        this.currentBid = item.get("highest_bid_amount").getAsInt();
-        if (this.currentBid == 0) {
-            this.currentBid = item.get("starting_bid").getAsInt();
-        }
-        this.secondsRemaining = Math.round((item.get("end").getAsLong() - System.currentTimeMillis())/1000f);
-    }
 }

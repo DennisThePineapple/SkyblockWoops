@@ -1,5 +1,7 @@
 package Wooper.Filters;
 
+import Wooper.Items.Equipment;
+import Wooper.Items.Item;
 import Wooper.Items.Tiers;
 
 public class EquipmentFilter extends Filter{
@@ -20,5 +22,14 @@ public class EquipmentFilter extends Filter{
 
     public void setHpBooks(int hpBooks) {
         this.hpBooks = hpBooks;
+    }
+
+    public boolean apply(Equipment equipment){
+        if (super.apply(equipment)){
+            if (equipment.getHpBooks() >= this.getHpBooks()){
+                return true;
+            }
+        }
+        return false;
     }
 }

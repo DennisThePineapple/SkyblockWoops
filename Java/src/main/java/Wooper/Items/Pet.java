@@ -6,8 +6,10 @@ import static Wooper.Items.Tiers.*;
 
 public class Pet extends Item {
     Tiers petTier;
+    int level;
     public Pet (JsonObject item){
         super(item);
+        petTier = this.findTier(item);
     }
 
     private Tiers findTier(JsonObject item){

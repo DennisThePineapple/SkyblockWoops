@@ -1,5 +1,6 @@
 package Wooper.Filters;
 
+import Wooper.Items.Pet;
 import Wooper.Items.Tiers;
 
 public class PetFilter extends Filter{
@@ -27,5 +28,14 @@ public class PetFilter extends Filter{
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public boolean apply(Pet pet){
+        if (super.apply(pet)){
+            if (super.tierCheck(pet.getTier())){
+                return true;
+            }
+        }
+        return false;
     }
 }
