@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Weapon extends Item {
+public class Weapon extends Equipment {
     int hpBooks;
     public Weapon (JsonObject item){
         super(item);
-        hpBooks = this.getHpBooks(item.get("item_lore").getAsString());
+        hpBooks = this.parsehpBooks(item.get("item_lore").getAsString());
     }
-    private int getHpBooks(String itemLore){
+
+    private int parsehpBooks(String itemLore){
         String regex = "\\(\\+\\d{1,2}\\)";
         Pattern pattern = Pattern.compile(regex);
         Matcher m = pattern.matcher(itemLore);
@@ -30,6 +31,7 @@ public class Weapon extends Item {
         return Collections.max(values)/2;
     }
 
+    @Override
     public int getHpBooks(){
         return hpBooks;
     }

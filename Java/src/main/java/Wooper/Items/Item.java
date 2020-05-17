@@ -1,21 +1,24 @@
 package Wooper.Items;
 
+import Wooper.Util.StringtoUUID;
 import com.google.gson.*;
+
+import java.util.UUID;
 
 import static Wooper.Items.Tiers.*;
 
 public class Item {
-    String auctionID;
-    String seller;
-    long endTime;
-    String itemName;
-    String tier;
-    int currentBid;
-    long secondsRemaining;
+    private UUID auctionID;
+    private UUID seller;
+    private long endTime;
+    private String itemName;
+    private String tier;
+    private int currentBid;
+    int secondsRemaining;
 
     public Item(JsonObject item) {
-        auctionID = item.get("uuid").getAsString();
-        seller = item.get("auctioneer").getAsString();
+        auctionID = StringtoUUID.convert(item.get("uuid").getAsString());
+        seller = StringtoUUID.convert(item.get("auctioneer").getAsString());
         endTime = item.get("end").getAsLong();
         itemName = item.get("item_name").getAsString();
         tier = item.get("tier").getAsString();
@@ -26,11 +29,11 @@ public class Item {
         secondsRemaining = this.secondsRemaining();
     }
 
-    public String getAuctionID() {
+    public UUID getAuctionID() {
         return auctionID;
     }
 
-    public String getSeller() {
+    public UUID getSeller() {
         return seller;
     }
 
@@ -65,8 +68,8 @@ public class Item {
      *
      * @return
      */
-    public long secondsRemaining() {
-        return endTime - System.currentTimeMillis();
+    public int secondsRemaining() {
+        return Math.round((endTime - System.currentTimeMillis())/1000f);
     }
 
     public void updateItem(JsonObject item) {
@@ -74,6 +77,6 @@ public class Item {
         if (this.currentBid == 0) {
             this.currentBid = item.get("starting_bid").getAsInt();
         }
-        this.secondsRemaining = item.get("end").getAsLong() - System.currentTimeMillis();
+        this.secondsRemaining = Math.round((item.get("end").getAsLong() - System.currentTimeMillis())/1000f);
     }
 }

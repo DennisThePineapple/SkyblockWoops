@@ -8,26 +8,33 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Armour extends Item {
+public class Armour extends Equipment {
     int hpBooks;
 
-    public Armour (JsonObject item){
+    public Armour(JsonObject item) {
         super(item);
-        hpBooks = this.getHpBooks(item.get("item_lore").getAsString());
+        hpBooks = this.parsehpBooks(item.get("item_lore").getAsString());
     }
-    public int getHpBooks(String itemLore){
+
+
+    private int parsehpBooks(String itemLore) {
         String regex = "\\(\\+\\d{1,2}\\)";
         Pattern pattern = Pattern.compile(regex);
         Matcher m = pattern.matcher(itemLore);
         List<Integer> values = new ArrayList<>();
         int index = 0;
-        while(m.find()){
+        while (m.find()) {
             values.add(Integer.parseInt(m.group().replaceAll("\\D", "")));
             index++;
         }
-        if (index == 0){
+        if (index == 0) {
             return 0;
         }
-        return Collections.max(values)/4;
+        return Collections.max(values) / 4;
+    }
+
+    @Override
+    public int getHpBooks() {
+        return hpBooks;
     }
 }
