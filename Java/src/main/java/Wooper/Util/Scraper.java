@@ -18,6 +18,7 @@ public class Scraper {
         CompletableFuture<SkyBlockAuctionsReply> initial = api.getSkyBlockAuctions(0);
         ItemsManager itemsManager = ItemsManager.get();
         // Wait till we get the first page
+        long initTime = System.currentTimeMillis();
         while (!initial.isDone()) {
         }
 
@@ -34,13 +35,14 @@ public class Scraper {
         }
         // Make a request for all pages + 1 just in case more auctions are added
         // Throttle api calls
-        totalPages = 4;
+        //totalPages = 4;
         ArrayList<CompletableFuture<SkyBlockAuctionsReply>> auctionRequests = new ArrayList<>();
         for (int page = 1; page < totalPages + 1; page++) {
             CompletableFuture<SkyBlockAuctionsReply> auctionPage = api.getSkyBlockAuctions(page);
             auctionRequests.add(auctionPage);
         }
         // While we are waiting on requests, remove completed requests and parse old ones
+
         while (!auctionRequests.isEmpty()) {
             Iterator<CompletableFuture<SkyBlockAuctionsReply>> iterator = auctionRequests.iterator();
             while (iterator.hasNext()) {
@@ -49,7 +51,6 @@ public class Scraper {
                     try {
                         itemsManager.addItems(auctionRequest.get().getAuctions());
                         iterator.remove();
-                        System.out.println("Requests remaining = " + auctionRequests.size());
                     }
                     // TODO add proper error handling here
 
@@ -67,6 +68,6 @@ public class Scraper {
                 }
             }
         }
-        System.out.println("Requests complete");
+        System.out.println("Requests complete in " + (System.currentTimeMillis()-initTime)/1000);
     }
 }
