@@ -14,6 +14,7 @@ public class Item {
     private String itemName;
     private String tier;
     private int currentBid;
+    private boolean bin;
 
 
     public Item(JsonObject item) {
@@ -26,6 +27,7 @@ public class Item {
         if (currentBid == 0) {
             currentBid = item.get("starting_bid").getAsInt();
         }
+        bin = (item.get("bin").getAsString().equals("true"));
     }
 
     public UUID getAuctionID() {

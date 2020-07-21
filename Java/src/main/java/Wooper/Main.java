@@ -2,6 +2,11 @@ package Wooper;
 import Wooper.Items.Item;
 import Wooper.Items.ItemsManager;
 import Wooper.Util.Scraper;
+import com.google.gson.JsonObject;
+import net.hypixel.api.reply.skyblock.ResourceReply;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
+
 import java.util.UUID;
 
 
