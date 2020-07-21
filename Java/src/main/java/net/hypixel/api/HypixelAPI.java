@@ -210,6 +210,15 @@ public class HypixelAPI {
     }
 
     /**
+     * Gets up to 100 of the player's most recently played games. Games are removed from this list after 3 days.
+     * @param uuid of player
+     * @return CompletableFuture with recentGames reply
+     */
+    public CompletableFuture<RecentGamesReply> getRecentGames(UUID uuid) {
+        return get(RecentGamesReply.class, "recentGames", "uuid", uuid);
+    }
+
+    /**
      * Retrieve resources which don't change often.
      *
      * @param resource to be requested
@@ -270,7 +279,6 @@ public class HypixelAPI {
                     checkReply(response);
 
                     future.complete(response);
-
                 } catch (Throwable t) {
                     future.completeExceptionally(t);
                     System.out.println(url);
