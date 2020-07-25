@@ -1,16 +1,14 @@
 package Wooper.Filters;
 
-import Wooper.Items.Equipment;
 import Wooper.Items.Item;
 import Wooper.Items.ItemsManager;
-import Wooper.Items.Pet;
-import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+/**
+ * Set of filters. Handles filtering as well. Consider splitting into FilterGroup and FilterManager later.
+ */
 
 public class FiltersManager {
     private Set<Filter> filters;
@@ -53,29 +51,29 @@ public class FiltersManager {
     }
 
     public void applyFilters(){
-        filters.forEach(filter ->{
+        filters.forEach(filter ->
             itemsManager.getAllItems().forEach(item -> {
                 if (filter.apply(item)){
                     filteredItems.add(item);
                 }
-            });
-        });
+            })
+        );
 
-        itemFilters.forEach(filter ->{
+        itemFilters.forEach(filter ->
             itemsManager.getItems().forEach(item -> {
                 if (filter.apply(item)){
                     filteredItems.add(item);
                 }
-            });
-        });
+            })
+        );
 
-        petFilters.forEach(filter ->{
+        petFilters.forEach(filter ->
             itemsManager.getPets().forEach(item -> {
                 if (filter.apply(item)){
                     filteredItems.add(item);
                 }
-            });
-        });
+            })
+        );
 
         equipmentFilters.forEach(filter ->{
             itemsManager.getArmours().forEach(item -> {
@@ -90,13 +88,13 @@ public class FiltersManager {
             });
         });
 
-        bookFilters.forEach(filter ->{
+        bookFilters.forEach(filter ->
             itemsManager.getEnchantedBooks().forEach(item -> {
                 if (filter.apply(item)){
                     filteredItems.add(item);
                 }
-            });
-        });
+            })
+        );
 
     }
 

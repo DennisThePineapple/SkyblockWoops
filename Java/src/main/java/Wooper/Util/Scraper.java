@@ -6,10 +6,8 @@ import net.hypixel.api.HypixelAPI;
 import net.hypixel.api.reply.skyblock.SkyBlockAuctionsReply;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
 public class Scraper {
 
     public static void scrape(UUID key) {
@@ -25,14 +23,22 @@ public class Scraper {
         // Get total pages in the auction
         int totalPages = 0;
         try {
-            itemsManager.addItems(initial.get().getAuctions());
             totalPages = initial.get().getTotalPages();
+
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+        try {
+            itemsManager.addItems(initial.get().getAuctions());
             auctions.addAll(initial.get().getAuctions());
         } catch (Exception e) {
             System.out.println("a catastrophe has occurred");
             System.out.println(e);
             System.out.println(e.getMessage());
-            System.exit(1);
+            System.exit(2);
         }
         // Make a request for all pages + 1 just in case more auctions are added
         // Throttle api calls
@@ -96,7 +102,8 @@ public class Scraper {
 
             }
 
-            System.out.println("Requests complete in " + (System.currentTimeMillis() - initTime) / 1000);
+
         }
+        System.out.println("Requests complete in " + (System.currentTimeMillis() - initTime) / 1000);
     }
 }

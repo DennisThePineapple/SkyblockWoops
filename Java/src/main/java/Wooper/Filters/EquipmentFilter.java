@@ -1,15 +1,14 @@
 package Wooper.Filters;
 
 import Wooper.Items.Equipment;
-import Wooper.Items.Item;
 import Wooper.Items.Tiers;
 
 public class EquipmentFilter extends Filter{
     private int hpBooks;
     public EquipmentFilter(int hpBooks, String itemName, Tiers tier, int priceMin, int priceMax,
-                  int timeRemaining)  {
+                  int timeRemaining, boolean bin)  {
         super(itemName,  tier,  priceMin,  priceMax,
-                timeRemaining);
+                timeRemaining, bin);
         if (hpBooks < 0 || hpBooks >10){
             this.hpBooks = 0;
         }

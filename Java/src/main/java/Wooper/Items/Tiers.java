@@ -6,6 +6,7 @@ public enum Tiers {
     RARE,
     EPIC,
     LEGENDARY,
+    MYTHIC,
     SPECIAL,
     IGNORE
 }

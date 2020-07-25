@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class HypixelAPI {
 
     private static final Gson GSON = new GsonBuilder()
@@ -74,31 +75,6 @@ public class HypixelAPI {
         return get(WatchdogStatsReply.class, "watchdogStats");
     }
 
-    /**
-     * This is now included inside {@link HypixelAPI#getGameCounts()}
-     */
-    @Deprecated
-    public CompletableFuture<PlayerCountReply> getPlayerCount() {
-        return get(PlayerCountReply.class, "playerCount");
-    }
-
-    /**
-     * Session endpoint is bound to be removed at some point,
-     * data is mainly internal and highly inaccurate for online checking
-     */
-    @Deprecated
-    public CompletableFuture<SessionReply> getSessionByUuid(UUID player) {
-        return get(SessionReply.class, "session", "uuid", player);
-    }
-
-    /**
-     * Session endpoint is bound to be removed at some point,
-     * data is mainly internal and highly inaccurate for online checking
-     */
-    @Deprecated
-    public CompletableFuture<SessionReply> getSessionByUuid(String player) {
-        return get(SessionReply.class, "session", "uuid", player);
-    }
 
     public CompletableFuture<PlayerReply> getPlayerByUuid(UUID player) {
         return get(PlayerReply.class, "player", "uuid", player);
@@ -112,10 +88,6 @@ public class HypixelAPI {
         return get(PlayerReply.class, "player", "uuid", player);
     }
 
-    @Deprecated
-    public CompletableFuture<PlayerReply> getPlayerByName(String player) {
-        return get(PlayerReply.class, "player", "name", player);
-    }
 
     public CompletableFuture<FriendsReply> getFriends(UUID player) {
         return get(FriendsReply.class, "friends", "uuid", player);
@@ -153,29 +125,6 @@ public class HypixelAPI {
         return get(GuildReply.class, "guild", "id", id);
     }
 
-    /**
-     * You can directly get the guild using {@link HypixelAPI#getGuildByPlayer(UUID)}
-     */
-    @Deprecated
-    public CompletableFuture<FindGuildReply> findGuildByPlayer(UUID player) {
-        return get(FindGuildReply.class, "findGuild", "byUuid", player);
-    }
-
-    /**
-     * You can directly get the guild using {@link HypixelAPI#getGuildByPlayer(String)}
-     */
-    @Deprecated
-    public CompletableFuture<FindGuildReply> findGuildByPlayer(String player) {
-        return get(FindGuildReply.class, "findGuild", "byUuid", player);
-    }
-
-    /**
-     * You can directly get the guild using {@link HypixelAPI#getGuildByName(String)})}
-     */
-    @Deprecated
-    public CompletableFuture<GuildReply> findGuildByName(String name) {
-        return get(GuildReply.class, "findGuild", "byName", name);
-    }
 
     public CompletableFuture<KeyReply> getKey() {
         return get(KeyReply.class, "key");

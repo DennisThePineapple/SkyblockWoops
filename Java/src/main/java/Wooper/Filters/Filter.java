@@ -13,14 +13,16 @@ public class Filter {
     private int priceMax;
     private int timeRemaining;
     private boolean active;
+    private boolean bin;
 
     public Filter(String itemName, Tiers tier, int priceMin, int priceMax,
-                  int timeRemaining) {
+                  int timeRemaining, boolean bin) {
         this.itemName = itemName;
         this.tier = tier;
         this.priceMin = priceMin;
         this.priceMax = priceMax;
         this.timeRemaining = timeRemaining;
+        this.bin = bin;
 
         if (priceMin > priceMax || priceMin == -1) {
             this.priceMin = 0;
@@ -95,7 +97,7 @@ public class Filter {
         return true;
     }
 
-    protected boolean tierCheck(Tiers itemTier){
+    private boolean tierCheck(Tiers itemTier){
         switch (tier){
             case COMMON:
                 if (itemTier == COMMON){
@@ -126,4 +128,11 @@ public class Filter {
         }
     }
 
+    public boolean isBin() {
+        return bin;
+    }
+
+    public void setBin(boolean bin) {
+        this.bin = bin;
+    }
 }

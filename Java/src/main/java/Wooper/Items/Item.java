@@ -27,7 +27,7 @@ public class Item {
         if (currentBid == 0) {
             currentBid = item.get("starting_bid").getAsInt();
         }
-        bin = (item.get("bin").getAsString().equals("true"));
+        bin = !(item.get("bin") == null || item.get("bin").getAsString().equals("false"));
     }
 
     public UUID getAuctionID() {
@@ -55,6 +55,8 @@ public class Item {
                 return EPIC;
             case "LEGENDARY":
                 return LEGENDARY;
+            case "MYTHIC":
+                return MYTHIC;
             default:
                 return SPECIAL;
         }
@@ -67,10 +69,19 @@ public class Item {
     /**
      * Gets the time remaining in the auction
      *
-     * @return
+     * @return How long until the auction is complete
      */
     public int secondsRemaining() {
         return Math.round((endTime - System.currentTimeMillis())/1000f);
     }
 
+    @Override
+    public String toString() {
+        String itemString;
+        itemString = "Item Name:" + itemName +
+                ", Price: " + currentBid +
+                ", Tier:" + tier +
+                ", Time Remaining:" + secondsRemaining();
+        return itemString;
+    }
 }
