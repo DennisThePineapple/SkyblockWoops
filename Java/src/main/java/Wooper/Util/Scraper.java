@@ -23,11 +23,14 @@ public class Scraper {
         // Get total pages in the auction
         int totalPages = 0;
         try {
+            System.out.println(initial.get().toString());
             totalPages = initial.get().getTotalPages();
 
         } catch (Exception e) {
+            System.out.println("Hypixel API may be down");
             System.out.println(e);
             System.out.println(e.getMessage());
+
             System.exit(1);
         }
 
@@ -96,8 +99,8 @@ public class Scraper {
                 if (bad.getMessage().equals("net.hypixel.api.exceptions.HypixelAPIException: Page not found")) {
                     break;
                 } else {
-                    System.out.println(bad.getMessage());
-                    System.exit(1);
+                    System.out.println(bad.getMessage() + " HYPIXEL API MAY BE DOWN");
+                    //System.exit(1);
                 }
 
             }

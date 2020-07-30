@@ -10,17 +10,26 @@ import java.util.Set;
  * Set of filters. Handles filtering as well. Consider splitting into FilterGroup and FilterManager later.
  */
 
-public class FiltersManager {
+public class FilterGroup {
     private Set<Filter> filters;
     private Set<Filter> itemFilters;
     private Set<PetFilter> petFilters;
     private Set<EquipmentFilter> equipmentFilters;
     private Set<BookFilter> bookFilters;
     private Set<Item> filteredItems;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     private String name;
     private ItemsManager itemsManager;
 
-    public FiltersManager(String name){
+    public FilterGroup(String name) {
         this.name = name;
         filteredItems = new HashSet<>();
         filters = new HashSet<>();
@@ -36,64 +45,64 @@ public class FiltersManager {
         return filteredItems;
     }
 
-    public void addFilter(Filter filter){
+    public void addFilter(Filter filter) {
         filters.add(filter);
 
     }
 
 
-    public void addPetFilter(PetFilter petFilter){
+    public void addPetFilter(PetFilter petFilter) {
         petFilters.add(petFilter);
     }
 
-    public void addEquipmentFilter(EquipmentFilter equipmentFilter){
+    public void addEquipmentFilter(EquipmentFilter equipmentFilter) {
         equipmentFilters.add(equipmentFilter);
     }
 
-    public void applyFilters(){
+    public void applyFilters() {
         filters.forEach(filter ->
-            itemsManager.getAllItems().forEach(item -> {
-                if (filter.apply(item)){
-                    filteredItems.add(item);
-                }
-            })
+                itemsManager.getAllItems().forEach(item -> {
+                    if (filter.apply(item)) {
+                        filteredItems.add(item);
+                    }
+                })
         );
 
         itemFilters.forEach(filter ->
-            itemsManager.getItems().forEach(item -> {
-                if (filter.apply(item)){
-                    filteredItems.add(item);
-                }
-            })
+                itemsManager.getItems().forEach(item -> {
+                    if (filter.apply(item)) {
+                        filteredItems.add(item);
+                    }
+                })
         );
 
         petFilters.forEach(filter ->
-            itemsManager.getPets().forEach(item -> {
-                if (filter.apply(item)){
-                    filteredItems.add(item);
-                }
-            })
+                itemsManager.getPets().forEach(item -> {
+                    if (filter.apply(item)) {
+                        filteredItems.add(item);
+                    }
+                })
         );
 
-        equipmentFilters.forEach(filter ->{
+        equipmentFilters.forEach(filter -> {
             itemsManager.getArmours().forEach(item -> {
-                if (filter.apply(item)){
+                if (filter.apply(item)) {
                     filteredItems.add(item);
                 }
             });
             itemsManager.getWeapons().forEach(item -> {
-                if (filter.apply(item)){
+                if (filter.apply(item)) {
                     filteredItems.add(item);
                 }
             });
         });
 
         bookFilters.forEach(filter ->
-            itemsManager.getEnchantedBooks().forEach(item -> {
-                if (filter.apply(item)){
-                    filteredItems.add(item);
-                }
-            })
+                itemsManager.getEnchantedBooks().forEach(item -> {
+                    if (filter.apply(item)) {
+                        filteredItems.add(item);
+                    }
+                })
         );
 
     }

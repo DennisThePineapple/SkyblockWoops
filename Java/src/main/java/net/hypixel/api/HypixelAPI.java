@@ -49,114 +49,11 @@ public class HypixelAPI {
         this.httpClient = HttpClientBuilder.create().build();
     }
 
-    /**
-     * Shuts down the internal executor service
-     */
-    public void shutdown() {
-        executorService.shutdown();
-    }
-
-    /**
-     * @return currently set API key
-     */
-    public UUID getApiKey() {
-        return apiKey;
-    }
-
-    public CompletableFuture<BoostersReply> getBoosters() {
-        return get(BoostersReply.class, "boosters");
-    }
-
-    public CompletableFuture<LeaderboardsReply> getLeaderboards() {
-        return get(LeaderboardsReply.class, "leaderboards");
-    }
-
-    public CompletableFuture<WatchdogStatsReply> getWatchdogStats() {
-        return get(WatchdogStatsReply.class, "watchdogStats");
-    }
-
-
-    public CompletableFuture<PlayerReply> getPlayerByUuid(UUID player) {
-        return get(PlayerReply.class, "player", "uuid", player);
-    }
-
-    /**
-     * @param player uuid of a player in string format, can be both dashed or undashed.
-     * @return the future
-     */
-    public CompletableFuture<PlayerReply> getPlayerByUuid(String player) {
-        return get(PlayerReply.class, "player", "uuid", player);
-    }
-
-
-    public CompletableFuture<FriendsReply> getFriends(UUID player) {
-        return get(FriendsReply.class, "friends", "uuid", player);
-    }
-
-    /**
-     * @param player uuid of a player in string format, can be both dashed or undashed.
-     * @return the future
-     */
-    public CompletableFuture<FriendsReply> getFriends(String player) {
-        return get(FriendsReply.class, "friends", "uuid", player);
-    }
-
-    public CompletableFuture<GuildReply> getGuildByPlayer(UUID player) {
-        return get(GuildReply.class, "guild", "player", player);
-    }
-
-    /**
-     * @param player uuid of a player in string format, can be both dashed or undashed.
-     * @return the future
-     */
-    public CompletableFuture<GuildReply> getGuildByPlayer(String player) {
-        return get(GuildReply.class, "guild", "player", player);
-    }
-
-    public CompletableFuture<GuildReply> getGuildByName(String name) {
-        return get(GuildReply.class, "guild", "name", name);
-    }
-
-    /**
-     * @param id mongo id hex string
-     * @return the future
-     */
-    public CompletableFuture<GuildReply> getGuildById(String id) {
-        return get(GuildReply.class, "guild", "id", id);
-    }
-
-
-    public CompletableFuture<KeyReply> getKey() {
-        return get(KeyReply.class, "key");
-    }
-
-    public CompletableFuture<GameCountsReply> getGameCounts() {
-        return get(GameCountsReply.class, "gameCounts");
-    }
-
-    public CompletableFuture<SkyBlockProfileReply> getSkyBlockProfile(String profile) {
-        return get(SkyBlockProfileReply.class, "skyblock/profile", "profile", profile);
-    }
-
-    public CompletableFuture<SkyBlockNewsReply> getSkyBlockNews() {
-        return get(SkyBlockNewsReply.class, "skyblock/news");
-    }
-
     public CompletableFuture<SkyBlockAuctionsReply> getSkyBlockAuctions(int page) {
         return get(SkyBlockAuctionsReply.class, "skyblock/auctions", "page", page);
     }
 
-    /**
-     * Gets the current status of the player with information about the server they are in
-     * at that moment.
-     * In case the person is in limbo, result will be the last known server
-     *
-     * @param uuid of player
-     * @return CompletableFuture with status reply
-     */
-    public CompletableFuture<StatusReply> getStatus(UUID uuid) {
-        return get(StatusReply.class, "status", "uuid", uuid);
-    }
+
 
     /**
      * Retrieve resources which don't change often.
@@ -203,7 +100,6 @@ public class HypixelAPI {
 
             }
             System.out.println(url);
-            //System.out.println("Printing");
 
             executorService.submit(() -> {
                 try {

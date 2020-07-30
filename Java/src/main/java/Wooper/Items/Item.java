@@ -1,18 +1,17 @@
 package Wooper.Items;
 
 import Wooper.Util.StringtoUUID;
-import com.google.gson.*;
+import Wooper.Util.TierAdapter;
+import com.google.gson.JsonObject;
 
 import java.util.UUID;
-
-import static Wooper.Items.Tiers.*;
 
 public class Item {
     private UUID auctionID;
     private UUID seller;
     private long endTime;
     private String itemName;
-    private String tier;
+    private Tiers tier;
     private int currentBid;
     private boolean bin;
 
@@ -22,12 +21,15 @@ public class Item {
         seller = StringtoUUID.convert(item.get("auctioneer").getAsString());
         endTime = item.get("end").getAsLong();
         itemName = item.get("item_name").getAsString();
-        tier = item.get("tier").getAsString();
+        tier = TierAdapter.findTier(item.get("tier").getAsString());
         currentBid = item.get("highest_bid_amount").getAsInt();
         if (currentBid == 0) {
             currentBid = item.get("starting_bid").getAsInt();
         }
         bin = !(item.get("bin") == null || item.get("bin").getAsString().equals("false"));
+        if (this.secondsRemaining() < 0){
+            System.out.println(this.toString());
+        }
     }
 
     public UUID getAuctionID() {
@@ -44,22 +46,7 @@ public class Item {
     }
 
     public Tiers getTier() {
-        switch (tier) {
-            case "COMMON":
-                return COMMON;
-            case "UNCOMMON":
-                return UNCOMMON;
-            case "RARE":
-                return RARE;
-            case "EPIC":
-                return EPIC;
-            case "LEGENDARY":
-                return LEGENDARY;
-            case "MYTHIC":
-                return MYTHIC;
-            default:
-                return SPECIAL;
-        }
+        return tier;
     }
 
     public int getCurrentBid() {

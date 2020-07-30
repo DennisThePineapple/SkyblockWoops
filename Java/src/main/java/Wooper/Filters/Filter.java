@@ -11,28 +11,14 @@ public class Filter {
     private Tiers tier;
     private int priceMin;
     private int priceMax;
+
+
+
     private int timeRemaining;
     private boolean active;
     private boolean bin;
 
-    public Filter(String itemName, Tiers tier, int priceMin, int priceMax,
-                  int timeRemaining, boolean bin) {
-        this.itemName = itemName;
-        this.tier = tier;
-        this.priceMin = priceMin;
-        this.priceMax = priceMax;
-        this.timeRemaining = timeRemaining;
-        this.bin = bin;
-
-        if (priceMin > priceMax || priceMin == -1) {
-            this.priceMin = 0;
-        }
-        if (priceMax == -1 || priceMax < priceMin) {
-            this.priceMax = Integer.MAX_VALUE;
-        }
-        if (timeRemaining < 1) {
-            timeRemaining = Integer.MAX_VALUE;
-        }
+    public Filter() {
         active = true;
     }
 
@@ -57,7 +43,7 @@ public class Filter {
         return tier;
     }
 
-    public void setTier(Tiers tier) {
+    public void setTier(Tiers tier){
         this.tier = tier;
     }
 
@@ -66,7 +52,12 @@ public class Filter {
     }
 
     public void setPriceMin(int priceMin) {
-        this.priceMin = priceMin;
+        if (priceMin > priceMax || priceMin == -1) {
+            this.priceMin = 0;
+        }
+        else {
+            this.priceMin = priceMin;
+        }
     }
 
     public int getPriceMax() {
@@ -74,27 +65,37 @@ public class Filter {
     }
 
     public void setPriceMax(int priceMax) {
-        this.priceMax = priceMax;
+        if (priceMax == -1 || priceMax < priceMin) {
+            this.priceMax = Integer.MAX_VALUE;
+        }
+        else {
+            this.priceMax = priceMax;
+        }
+    }
+    public int getTimeRemaining() {
+        return timeRemaining;
+    }
+
+    public void setTimeRemaining(int timeRemaining) {
+        if (timeRemaining < 1) {
+            timeRemaining = Integer.MAX_VALUE;
+        }
+        else {
+            this.timeRemaining = timeRemaining;
+        }
     }
 
     public boolean apply(Item item) {
         if (itemName != null) {
-            if (!item.getItemName().contains(this.itemName)) {
-                return false;
-            }
+            return item.getItemName().contains(this.itemName);
         }
         else if (item.secondsRemaining() > this.timeRemaining) {
             return false;
         }
         else if (this.tier != IGNORE){
-            if (!this.tierCheck(item.getTier())){
-                return false;
-            }
+            return this.tierCheck(item.getTier());
         }
-        else if (item.getCurrentBid() >= priceMax || item.getCurrentBid() <= priceMin){
-            return false;
-        }
-        return true;
+        else return item.getCurrentBid() < priceMax && item.getCurrentBid() > priceMin;
     }
 
     private boolean tierCheck(Tiers itemTier){

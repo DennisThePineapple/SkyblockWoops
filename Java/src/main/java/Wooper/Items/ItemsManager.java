@@ -1,15 +1,13 @@
 package Wooper.Items;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
+import java.util.UUID;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 public class ItemsManager {
@@ -19,6 +17,7 @@ public class ItemsManager {
     private List<EnchantedBooks> enchantedBooks;
     private List<Pet> pets;
     private List<Weapon> weapons;
+    private HashMap<UUID, Item> itemDict;
     private static ItemsManager itemsManager = null;
 
 
@@ -28,6 +27,8 @@ public class ItemsManager {
         enchantedBooks = new ArrayList<>();
         pets = new ArrayList<>();
         weapons = new ArrayList<>();
+        itemDict = new HashMap<>();
+        items = new ArrayList<>(itemDict.values());
     }
 
     public static ItemsManager get() {
@@ -65,7 +66,7 @@ public class ItemsManager {
          for (JsonElement jsonElement : jsonArray) {
          JsonObject item = jsonElement.getAsJsonObject();
          if (checkPet(item)) {
-         pets.add(new Pet(item));
+         pets.add(new et(item));
          } else if (checkBook(item)) {
          enchantedBooks.add(new EnchantedBooks(item));
          } else if (checkArmour(item)) {

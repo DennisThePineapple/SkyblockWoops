@@ -1,16 +1,13 @@
 package Wooper.Filters;
 
 import Wooper.Items.Pet;
-import Wooper.Items.Tiers;
 
 public class PetFilter extends Filter{
 
-    int level;
-    public PetFilter(String itemName, Tiers tier, int priceMin, int priceMax,
-                     int timeRemaining, int level, boolean bin) {
-        super(itemName, tier, priceMin, priceMax,
-                timeRemaining, bin);
-        this.level = level;
+    private int level;
+    public PetFilter() {
+        setActive(true);
+
     }
 
 
@@ -24,9 +21,7 @@ public class PetFilter extends Filter{
 
     public boolean apply(Pet pet){
         if (super.apply(pet)){
-            if (pet.getLevel() >= level){
-                return true;
-            }
+            return pet.getLevel() >= level;
         }
         return false;
     }
