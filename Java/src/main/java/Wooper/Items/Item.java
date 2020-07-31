@@ -27,9 +27,6 @@ public class Item {
             currentBid = item.get("starting_bid").getAsInt();
         }
         bin = !(item.get("bin") == null || item.get("bin").getAsString().equals("false"));
-        if (this.secondsRemaining() < 0){
-            System.out.println(this.toString());
-        }
     }
 
     public UUID getAuctionID() {
@@ -68,7 +65,12 @@ public class Item {
         itemString = "Item Name:" + itemName +
                 ", Price: " + currentBid +
                 ", Tier:" + tier +
-                ", Time Remaining:" + secondsRemaining();
+                ", Time Remaining:" + secondsRemaining() +
+        ", UUID: /viewauction " + this.getAuctionID();
         return itemString;
+    }
+
+    public boolean isBin() {
+        return bin;
     }
 }

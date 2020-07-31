@@ -9,17 +9,20 @@ public class Filter {
 
     private String itemName;
     private Tiers tier;
-    private int priceMin;
-    private int priceMax;
-
-
-
-    private int timeRemaining;
-    private boolean active;
-    private boolean bin;
+    private Integer priceMin;
+    private Integer priceMax;
+    private Integer timeRemaining;
+    private Boolean active;
+    private Boolean bin;
 
     public Filter() {
         active = true;
+        bin = null;
+        timeRemaining = null;
+        priceMax = null;
+        priceMin = null;
+        tier = null;
+        itemName = null;
     }
 
     public void setActive(boolean active) {
@@ -77,12 +80,7 @@ public class Filter {
     }
 
     public void setTimeRemaining(int timeRemaining) {
-        if (timeRemaining < 1) {
-            timeRemaining = Integer.MAX_VALUE;
-        }
-        else {
             this.timeRemaining = timeRemaining;
-        }
     }
 
     public boolean apply(Item item) {

@@ -60,13 +60,6 @@ public class FilterGroup {
     }
 
     public void applyFilters() {
-        filters.forEach(filter ->
-                itemsManager.getAllItems().forEach(item -> {
-                    if (filter.apply(item)) {
-                        filteredItems.add(item);
-                    }
-                })
-        );
 
         itemFilters.forEach(filter ->
                 itemsManager.getItems().forEach(item -> {

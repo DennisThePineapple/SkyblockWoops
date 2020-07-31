@@ -8,6 +8,7 @@ import net.hypixel.api.reply.skyblock.SkyBlockAuctionsReply;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+
 public class Scraper {
 
     public static void scrape(UUID key) {
@@ -23,7 +24,6 @@ public class Scraper {
         // Get total pages in the auction
         int totalPages = 0;
         try {
-            System.out.println(initial.get().toString());
             totalPages = initial.get().getTotalPages();
 
         } catch (Exception e) {
@@ -45,9 +45,9 @@ public class Scraper {
         }
         // Make a request for all pages + 1 just in case more auctions are added
         // Throttle api calls
-        //totalPages = 4;
+        //totalPages = 8;
         ArrayList<CompletableFuture<SkyBlockAuctionsReply>> auctionRequests = new ArrayList<>();
-        for (int page = 1; page < totalPages + 1; page++) {
+        for (int page = 1; page < totalPages; page++) {
             CompletableFuture<SkyBlockAuctionsReply> auctionPage = api.getSkyBlockAuctions(page);
             auctionRequests.add(auctionPage);
         }
@@ -81,32 +81,41 @@ public class Scraper {
          }
          }
          }
+
+         for (CompletableFuture<SkyBlockAuctionsReply> auctionRequest : auctionRequests) {
+         while (!auctionRequest.isDone()) {
+
+         }
+
+         }
+         for (SkyBlockAuctionsReply auctionsReply : auctionsReplies){
+         System.out.println("HTTP Request time:" + (System.currentTimeMillis()-initTime2));
+         initTime2 = System.currentTimeMillis();
+         try {
+         itemsManager.addItems(auctionsReply.getAuctions());
+         }
+         // TODO add proper error handling here
+
+         // This shouldn't happen egg dee
+         catch (Exception bad) {
+
+         System.out.println(bad);
+         if (bad.getMessage().equals("net.hypixel.api.exceptions.HypixelAPIException: Page not found")) {
+         break;
+         } else {
+         System.out.println(bad + " HYPIXEL API MAY BE DOWN");
+         //System.exit(1);
+         }
+         }
+         }
          **/
 
-        for (CompletableFuture<SkyBlockAuctionsReply> auctionRequest : auctionRequests) {
-            while (!auctionRequest.isDone()) {
-
-            }
-            System.out.println("HTTP Request time:" + (System.currentTimeMillis()-initTime2));
-            initTime2 = System.currentTimeMillis();
-            try {
-                itemsManager.addItems(auctionRequest.get().getAuctions());
-            }
-            // TODO add proper error handling here
-
-            // This shouldn't happen egg dee
-            catch (Exception bad) {
-                if (bad.getMessage().equals("net.hypixel.api.exceptions.HypixelAPIException: Page not found")) {
-                    break;
-                } else {
-                    System.out.println(bad.getMessage() + " HYPIXEL API MAY BE DOWN");
-                    //System.exit(1);
-                }
-
-            }
+        auctionRequests.stream()
+                .map(CompletableFuture::join)
+                .map(SkyBlockAuctionsReply::getAuctions)
+                .forEach(itemsManager::addItems);
 
 
-        }
         System.out.println("Requests complete in " + (System.currentTimeMillis() - initTime) / 1000);
     }
 }

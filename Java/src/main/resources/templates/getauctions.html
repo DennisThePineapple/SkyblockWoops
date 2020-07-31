@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>All Auctions</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+</head>
+
+<body>
+
+    <h1>Auctions</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Tier</th>
+                <th>Price</th>
+                <th>BIN</th>
+                <th>UUID</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.itemName}">Onions</td>
+                <td th:text="${item.Tier}">Onions</td>
+                <td th:text="${item.currentBid}">Onions</td>
+                <td>
+                    <div th:if="${item.bin}">
+                        <div>&#10004</div>
+                    </div>
+                    <div th:unless="${item.bin}">
+                        <div>&#10060</div>
+                    </div>
+                </td>
+
+                <td th:text="'/viewauction '+${item.auctionID}">Onions</td>
+
+            </tr>
+        </tbody>
+
+    </table>
+</body>
+<script src="js/table_sort.js"></script>
+
+</html>

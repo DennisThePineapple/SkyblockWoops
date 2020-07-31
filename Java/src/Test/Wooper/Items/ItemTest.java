@@ -2,10 +2,7 @@ package Wooper.Items;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ItemTest {
 
@@ -20,5 +17,11 @@ class ItemTest {
     @Test
     void test(){
         setup();
+    }
+
+    @Test
+    void UUIDtest(){
+        String string= "2008baad419947ee9335f867a490aac2";
+
     }
 }

@@ -12,23 +12,22 @@ import java.util.stream.StreamSupport;
 
 public class ItemsManager {
 
-    private List<Item> items;
-    private List<Armour> armours;
-    private List<EnchantedBooks> enchantedBooks;
-    private List<Pet> pets;
-    private List<Weapon> weapons;
+    private HashMap<UUID, Item> items;
+    private HashMap<UUID, Armour> armours;
+    private HashMap<UUID, EnchantedBooks> enchantedBooks;
+    private HashMap<UUID, Pet> pets;
+    private HashMap<UUID, Weapon> weapons;
     private HashMap<UUID, Item> itemDict;
     private static ItemsManager itemsManager = null;
 
 
     private ItemsManager() {
-        items = new ArrayList<>();
-        armours = new ArrayList<>();
-        enchantedBooks = new ArrayList<>();
-        pets = new ArrayList<>();
-        weapons = new ArrayList<>();
-        itemDict = new HashMap<>();
-        items = new ArrayList<>(itemDict.values());
+        items = new HashMap<>();
+        armours = new HashMap<>();
+        enchantedBooks = new HashMap<>();
+        pets = new HashMap<>();
+        weapons = new HashMap<>();
+
     }
 
     public static ItemsManager get() {
@@ -46,19 +45,20 @@ public class ItemsManager {
                 .forEach(jsonElement -> {
                     JsonObject item = jsonElement.getAsJsonObject();
                     if (checkPet(item)) {
-                        pets.add(new Pet(item));
-                        return;
+                        Pet pet = new Pet(item);
+                        pets.put(pet.getAuctionID(), pet);
                     } else if (checkBook(item)) {
-                        enchantedBooks.add(new EnchantedBooks(item));
-                        return;
+                        EnchantedBooks enchantedBook = new EnchantedBooks(item);
+                        enchantedBooks.put(enchantedBook.getAuctionID(), enchantedBook);
                     } else if (checkArmour(item)) {
-                        armours.add(new Armour(item));
-                        return;
+                        Armour armour = new Armour(item);
+                        armours.put(armour.getAuctionID(), armour);
                     } else if (checkWeapon(item)) {
-                        weapons.add(new Weapon(item));
-                        return;
+                        Weapon weapon = new Weapon(item);
+                        weapons.put(weapon.getAuctionID(), weapon);
                     } else {
-                        items.add(new Item(item));
+                        Item item1 = new Item(item);
+                        items.put(item1.getAuctionID(), item1);
                     }
                 });
         // For loop implementation
@@ -82,33 +82,25 @@ public class ItemsManager {
     }
 
     public List<Item> getItems() {
-        return items;
+        return new ArrayList<>(this.items.values());
     }
 
     public List<Armour> getArmours() {
-        return armours;
+        return new ArrayList<>(armours.values());
     }
 
     public List<EnchantedBooks> getEnchantedBooks() {
-        return enchantedBooks;
+        return new ArrayList<>(enchantedBooks.values());
     }
 
     public List<Pet> getPets() {
-        return pets;
+        return new ArrayList<>(pets.values());
     }
 
     public List<Weapon> getWeapons() {
-        return weapons;
+        return new ArrayList<>(weapons.values());
     }
 
-    public List<Item> getAllItems() {
-        List<Item> allItems = new ArrayList<>(items);
-        allItems.addAll(weapons);
-        allItems.addAll(armours);
-        allItems.addAll(enchantedBooks);
-        allItems.addAll(pets);
-        return allItems;
-    }
 
     private boolean checkPet(JsonObject jsonObject) {
         return Pattern.compile("\\[Lvl \\d{1,3}]").matcher(jsonObject.get("item_name").getAsString()).find();

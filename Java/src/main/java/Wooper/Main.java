@@ -1,11 +1,9 @@
 package Wooper;
 
-import Wooper.Items.Item;
 import Wooper.Items.ItemsManager;
 import Wooper.Util.Scraper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -15,26 +13,21 @@ import java.util.UUID;
 public class Main {
     public static void main(String[] args) {
 
-
-        // Chuck in your api key here
-        UUID key = UUID.fromString("c2ceb54c-3f7d-4522-8f82-1d0a5efaeb78");
+        System.out.println("Starting Service");
+        try {
+            SpringApplication.run(Main.class, args);
+        }
+        catch (Exception e){
+            System.out.println(e);
+            System.exit(340);
+        }
+        UUID key = UUID.fromString("74827e82-e00d-4771-9f3d-b0b8995fbf92");
         Scraper.scrape(key);
         ItemsManager itemsManager = ItemsManager.get();
 
-        SpringApplication.run(Main.class, args);
+
 
     }
-    @GetMapping("/getAuctions")
-    public String getAuctions(){
-        String xd = "";
-        ItemsManager itemsManager = ItemsManager.get();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Item i: itemsManager.getItems()){
-            stringBuilder.append(i.toString());
-        }
-        System.out.println("Request to see auctions");
 
-        return stringBuilder.toString();
-    }
 }
 
